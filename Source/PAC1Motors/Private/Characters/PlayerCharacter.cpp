@@ -9,6 +9,14 @@ APlayerCharacter::APlayerCharacter()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	if (GEngine)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Yellow, TEXT("Hola desde C++"));
+	}
+
+	//Missatge al LOG
+	UE_LOG(LogTemp, Warning, TEXT("Hola desde el log de Unreal"))
+
 }
 
 // Called when the game starts or when spawned
