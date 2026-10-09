@@ -9,6 +9,9 @@
 
 class UInputMappingContext;
 class UInputAction;
+class USpringArmComponent;
+class UCameraComponent;
+class UAnimMontage;
 
 UCLASS()
 class PAC1MOTORS_API APlayerCharacter : public ACharacter
@@ -20,6 +23,11 @@ public:
 	APlayerCharacter();
 
 protected:
+
+    static constexpr float WALKSPEED = 250.f;
+    static constexpr float RUNSPEED = 800.f;
+    static constexpr float JUMPZVELOCITY = 200.f;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
     virtual void NotifyControllerChanged() override;
@@ -39,7 +47,31 @@ protected:
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
     TObjectPtr<UInputAction> ShootAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+    TObjectPtr<UInputAction> RunAction;
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
+    float ShootRange = 5000.f;
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
+    TObjectPtr<UAnimMontage> FireMontage;
+
+    
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon")
+    TObjectPtr<UStaticMeshComponent> WeaponMesh;
+
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
+    TObjectPtr<USpringArmComponent> CameraBoom;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
+    TObjectPtr<UCameraComponent> FollowCamera;
+
     void Move(const FInputActionValue& Value);
+    void Look(const FInputActionValue& Value);
+	void Run();
+	void StopRun();
+    void Shoot();
 
 public:	
 	// Called every frame
